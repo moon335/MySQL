@@ -41,3 +41,26 @@ VALUES
     ('김철수', 'c@naver.com', '서울시 강남구 역삼동');
     
 SELECT * FROM customer;
+
+-- 영화
+
+CREATE TABLE movie(
+	movie_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    running_time INT NOT NULL
+);
+
+ALTER TABLE movie ADD `release` DATE NOT NULL;
+
+desc movie;
+
+INSERT INTO movie(name, price, running_time, `release`)
+VALUES
+	('대외비', 15000, 115, '2021-08-07'),
+    ('스즈메의 문단속', 15000, 122, 20230308),
+    ('더 퍼스트 슬램덩크', 15000, 124, 20230104),
+    ('앤트맨과 와스프: 퀀텀매니아', 15000, 125, '2023-02-15'),
+    ('서치2', 15000, 110, 20230222);
+
+SELECT * FROM movie;
