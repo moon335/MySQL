@@ -74,7 +74,7 @@ CREATE TABLE subject(
 desc subject;
 
 CREATE TABLE employee(
-	emplyee_id INT PRIMARY KEY,
+	employee_id INT PRIMARY KEY,
     name VARCHAR(10) NOT NULL,
     age INT,
     department VARCHAR(10) NOT NULL
@@ -123,3 +123,4 @@ CREATE TABLE membership(
     join_date DATE NOT NULL
 );
 
+desc membership;
