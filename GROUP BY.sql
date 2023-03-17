@@ -198,3 +198,12 @@ ON e.emp_no = s.emp_no
 GROUP BY e.emp_no
 HAVING e.first_name = 'Georgi' 
 	AND e.last_name = 'Facello';
+
+desc employees;
+select * from employees;
+
+INSERT INTO employees(emp_no, birth_date, first_name, last_name, gender, hire_date)
+VALUES
+	(2, '2023-03-10', 'Kim', 'Suho', 'M', '2023-03-19');
+    
+SELECT * FROM employees LIMIT 10;
