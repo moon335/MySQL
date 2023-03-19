@@ -8,26 +8,11 @@ CREATE TABLE user(
     tel VARCHAR(30) NOT NULL
 );
 
-SELECT * FROM user WHERE userId = '' AND password = '';
-
-INSERT INTO user(userId, password, userName, address, tel)
-VALUES('a', 'b', 'c', 'd', 'e');
-
-desc user;
-SELECT * FROM user;
-
-insert into user(userId, password, username, address, tel)
-values
-	('hyeon1', '1234', '현우', '부산시 동구', '01012341234');
-
 CREATE TABLE product(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     price INT NOT NULL
 );
-
-desc product;
-SELECT * FROM product;
 
 CREATE TABLE `order`(
 	id INT PRIMARY KEY AUTO_INCREMENT,
@@ -35,6 +20,7 @@ CREATE TABLE `order`(
     prodId INT,
     orderDate DATETIME NOT NULL,
     amount INT NOT NULL,
+    priceSum INT NOT NULL,
     FOREIGN KEY (userId) REFERENCES user(id),
     FOREIGN KEY (prodId) REFERENCES product(id)
 );
@@ -83,11 +69,17 @@ VALUES
     ('치킨텐더샌드위치', 6400),
     ('치킨텐더샐러드', 7500),
     ('구운버섯샐러드', 7500);
-insert into `order`(userId, prodId, orderDate, amount)
-values
-	(1, 1, now(), 1);
     
-select * 
+    
+INSERT INTO `order`(userId, prodId, orderDate, amount, priceSum)
+VALUES
+	(1, 5, now(), 1, (1 * 2));
+    
+select count(amount) - 1 as '총 수량', sum(price) as '합 금액'
 from `order` as o
 inner join product as p
-on o.prodId = p.id;
+on o.prodId = p.id
+WHERE o.userId = 1;
+
+select *
+from `order`;
