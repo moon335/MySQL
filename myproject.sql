@@ -24,9 +24,9 @@ CREATE TABLE `order`(
     FOREIGN KEY (userId) REFERENCES user(id),
     FOREIGN KEY (prodId) REFERENCES product(id)
 );
-
+drop table `order`;
 desc product;
-SELECT * FROM `order`;
+SELECT * FROM user;
 
 SELECT * FROM product WHERE name = '족발';
 
@@ -73,7 +73,7 @@ VALUES
     
 INSERT INTO `order`(userId, prodId, orderDate, amount, priceSum)
 VALUES
-	(1, 5, now(), 1, (1 * 2));
+	(4, 1, now(), 1, (1 * 30000));
     
 select count(amount) - 1 as '총 수량', sum(price) as '합 금액'
 from `order` as o
@@ -81,5 +81,6 @@ inner join product as p
 on o.prodId = p.id
 WHERE o.userId = 1;
 
+delete from user;
 select *
 from `order`;

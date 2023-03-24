@@ -1,0 +1,11 @@
+CREATE TABLE user(
+	id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+SHOW VARIABLES LIKE 'c%';
+
+SELECT * FROM user;
