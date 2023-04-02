@@ -17,7 +17,7 @@ VALUES
 
 SELECT * FROM user;
 
-SELECT * FROM user WHERE userId = 'admin' AND password = '1234';
+SELECT * FROM user WHERE id = 1;
 
 UPDATE user
 SET password = '', tel = '', email = ''
@@ -74,13 +74,16 @@ VALUES
     ('B9', true),
     ('B10', true);
 
-SELECT * FROM seat WHERE name = 'B1';
-SELECT * FROM movie;
+SELECT * FROM seat WHERE id = 3;
+SELECT * FROM movie WHERE id = 1;
 SELECT * FROM theater;
 SELECT * FROM ticket;
+
 UPDATE seat
 set isChecked = 1
 WHERE id = 1;
+desc movie;
+SELECT * FROM movie WHERE name = '스즈메의 문단속';
 
 INSERT INTO movie(name, price, movieRated)
 VALUES
@@ -149,3 +152,41 @@ VALUES
     ('광주/전라/제주', '순천점'),
     ('광주/전라/제주', '여수웅천점'),
     ('광주/전라/제주', '제주점');
+    
+INSERT INTO ticket(`date`, startTime, userId, theaterId, movieId, seatId)
+VALUES
+	('2023-04-03', '14:00', 1, 4, 5, 15);
+    
+SELECT * FROM ticket;
+
+SELECT * FROM ticket WHERE id = 1;
+
+
+SELECT t.id, t.date, t.startTime, u.username, th.city as city, th.name as theaterName, s.name as seatName, m.name as movieName, m.price as price, m.movieRated as movieRated
+FROM ticket as t
+INNER JOIN user as u
+ON t.userId = u.id
+INNER JOIN theater as th
+ON t.theaterId = th.id
+INNER JOIN movie as m
+ON t.movieId = m.id
+INNER JOIN seat as s
+ON t.seatId = s.id
+WHERE t.userId = 1;
+
+SELECT t.id, t.date, t.startTime, u.username, th.city as city, th.name as theaterName, s.name as seatName
+FROM ticket as t
+INNER JOIN user as u
+ON t.userId = u.id
+INNER JOIN theater as th
+ON t.theaterId = th.id
+INNER JOIN movie as m
+ON t.movieId = m.id
+INNER JOIN seat as s
+ON t.seatId = s.id
+WHERE t.id = 1;
+
+
+UPDATE theater
+SET name = '나주점'
+WHERE id = 50;
