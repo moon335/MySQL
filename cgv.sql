@@ -13,7 +13,7 @@ CREATE TABLE user(
 
 INSERT INTO user(userId, password, username, birthDate, tel, email)
 VALUES
-	('admin', '1234', '현우', '1111-11-11', '01012341234', 'a@naver.com');
+	('admin', '1234', '김현우', '1111-11-11', '01012341234', 'a@naver.com');
 
 SELECT * FROM user;
 
@@ -23,19 +23,25 @@ UPDATE user
 SET password = '', tel = '', email = ''
 WHERE userId = '';
 
+SELECT * FROM seat WHERE isChecked = 1 AND movieId = 1;
+
 
 DELETE FROM user WHERE userId = 'asd123' AND password = '1234';
 
 CREATE TABLE seat(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
-    isChecked BOOLEAN NOT NULL
+    isChecked BOOLEAN NOT NULL,
+    subSection INT NOT NULL,
+    movieId INT,
+    FOREIGN KEY (movieId) REFERENCES movie(id)
 );
 
 CREATE TABLE movie(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     price INT NOT NULL,
+    runningTime VARCHAR(30) NOT NULL,
     movieRated VARCHAR(50) NOT NULL
 );
 
@@ -59,39 +65,64 @@ CREATE TABLE ticket(
     FOREIGN KEY (seatId) REFERENCES seat(id)
 );
 
-
-
-INSERT INTO seat(name, isChecked)
+INSERT INTO seat(name, isChecked, subSection)
 VALUES
-	('B1', true),
-    ('B2', true),
-    ('B3', true),
-    ('B4', true),
-    ('B5', true),
-    ('B6', true),
-    ('B7', true),
-    ('B8', true),
-    ('B9', true),
-    ('B10', true);
+	('A1', true, 5),
+    ('A2', true, 5),
+    ('A3', true, 5),
+    ('A4', true, 5),
+    ('A5', true, 5),
+    ('A6', true, 5),
+    ('A7', true, 5),
+    ('A8', true, 5),
+    ('A9', true, 5),
+    ('A10', true, 5);
 
-SELECT * FROM seat WHERE id = 3;
-SELECT * FROM movie WHERE id = 1;
+INSERT INTO seat(name, isChecked, subSection)
+VALUES
+	('B1', true, 5),
+    ('B2', true, 5),
+    ('B3', true, 5),
+    ('B4', true, 5),
+    ('B5', true, 5),
+    ('B6', true, 5),
+    ('B7', true, 5),
+    ('B8', true, 5),
+    ('B9', true, 5),
+    ('B10', true, 5);
+
+SELECT * FROM user;
+SELECT * FROM seat;
+SELECT * FROM movie;
 SELECT * FROM theater;
 SELECT * FROM ticket;
 
+DELETE FROM user WHERE userId = 'asd123' AND password = '12345' ;
+
 UPDATE seat
 set isChecked = 1
-WHERE id = 1;
+WHERE isChecked = 0;
+
+drop table user;
+
 desc movie;
 SELECT * FROM movie WHERE name = '스즈메의 문단속';
 
-INSERT INTO movie(name, price, movieRated)
+
+INSERT INTO movie(name, price, runningTime, movieRated)
 VALUES
-	('스즈메의 문단속', 15000, '12세 이상'),
-    ('소울메이트', 15000, '12세 이상'),
-    ('던전앤드래곤', 15000, '12세 이상'),
-    ('웅남이', 15000, '15세 이상'),
-    ('슬램덩크', 15000, '12세 이상');
+	('스즈메의 문단속', 15000, '122분', '12세 이상'),
+    ('소울메이트', 15000, '124분', '12세 이상'),
+    ('던전앤드래곤', 15000, '134분', '12세 이상'),
+    ('웅남이', 15000, '97분', '15세 이상'),
+    ('슬램덩크', 15000, '124분', '12세 이상'),
+    ('존윅4', 15000, '169분', '18세 이상'),
+    ('리바운드', 15000, '122분', '12세 이상'),
+    ('에어', 15000, '112분', '15세 이상'),
+    ('흐르다', 15000, '123분', '12세 이상'),
+    ('멍뭉이', 15000, '113분', '전체연령가'),
+    ('치킨래빗', 15000, '92분', '전체연령가'),
+    ('아바타-물의길', 15000, '192분', '12세 이상');
     
 INSERT INTO theater(city, name)
 VALUES
@@ -153,16 +184,21 @@ VALUES
     ('광주/전라/제주', '여수웅천점'),
     ('광주/전라/제주', '제주점');
     
+INSERT INTO theater(city, name)
+VALUES
+	('경상', '김해율하점');
+    
 INSERT INTO ticket(`date`, startTime, userId, theaterId, movieId, seatId)
 VALUES
-	('2023-04-03', '14:00', 1, 4, 5, 15);
+	('2023-04-03', '14:00', 5, 4, 5, 15);
     
 SELECT * FROM ticket;
+DELETE FROM ticket WHERE id = 44;
 
 SELECT * FROM ticket WHERE id = 1;
 
 
-SELECT t.id, t.date, t.startTime, u.username, th.city as city, th.name as theaterName, s.name as seatName, m.name as movieName, m.price as price, m.movieRated as movieRated
+SELECT t.id, t.date, t.startTime, u.username, th.city as city, th.name as theaterName, s.name as seatName, m.name as movieName, m.price as price, m.movieRated as movieRated, m.runningTime as runningTime
 FROM ticket as t
 INNER JOIN user as u
 ON t.userId = u.id
@@ -172,9 +208,9 @@ INNER JOIN movie as m
 ON t.movieId = m.id
 INNER JOIN seat as s
 ON t.seatId = s.id
-WHERE t.userId = 1;
+WHERE t.userId = 5;
 
-SELECT t.id, t.date, t.startTime, u.username, th.city as city, th.name as theaterName, s.name as seatName
+SELECT t.id, t.date, t.startTime, u.username, th.city as city, th.name as theaterName, s.name as seatName, m.name as movieName, m.price as price, m.movieRated as movieRated, m.runningTime as runningTime
 FROM ticket as t
 INNER JOIN user as u
 ON t.userId = u.id
@@ -184,7 +220,7 @@ INNER JOIN movie as m
 ON t.movieId = m.id
 INNER JOIN seat as s
 ON t.seatId = s.id
-WHERE t.id = 1;
+WHERE t.userId = 5 AND t.seatId = 1;
 
 
 UPDATE theater
